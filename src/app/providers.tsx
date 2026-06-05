@@ -1,5 +1,6 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { RouterProvider } from 'react-router-dom';
+import { Toaster } from 'sonner';
 import { router } from './routes/router';
 import { ApiError } from '../types/api';
 import { LanguageProvider } from './language-context';
@@ -29,6 +30,7 @@ export function AppProviders() {
       <LanguageProvider>
         <QueryClientProvider client={queryClient}>
           <RouterProvider router={router} />
+          <Toaster position="top-right" richColors theme="dark" />
         </QueryClientProvider>
       </LanguageProvider>
     </ThemeProvider>

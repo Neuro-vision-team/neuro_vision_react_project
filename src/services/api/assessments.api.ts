@@ -4,7 +4,7 @@
  * Reports are derived from completed assessments via /assessments/:id/report
  * (there is no standalone /reports backend endpoint).
  */
-import { apiGet, apiPost } from './client';
+import { apiGet, apiPost, apiPostEnvelope } from './client';
 import type { PaginatedRaw } from '../../types/api';
 import type { AssessmentRaw, AssessmentsParams } from '../../types/assessment';
 import type { PlrTestRaw } from '../../types/plr';
@@ -50,4 +50,18 @@ export function getAssessmentScatOffField(id: string): Promise<ScatOffFieldRaw |
 // Both IDs must belong to the same player — backend enforces this with 422.
 export function compareAssessments(ids: [string, string]): Promise<CompareReportRaw> {
   return apiPost<CompareReportRaw>('/reports/compare', { assessment_ids: ids });
+}
+
+// ─── Insurance email ──────────────────────────────────────────────────────────
+export interface SendInsuranceEmailPayload {
+  email: string;
+  subject: string;
+  message: string;
+}
+
+export function sendInsuranceEmail(
+  reportId: string,
+  payload: SendInsuranceEmailPayload,
+): Promise<{ success: boolean; message: string }> {
+  return apiPostEnvelope(`/reports/${reportId}/send-insurance-email`, payload);
 }

@@ -88,3 +88,46 @@ export const apiPost   = <T>(path: string, body?: unknown) => request<T>('POST',
 export const apiPut    = <T>(path: string, body?: unknown) => request<T>('PUT', path, body);
 export const apiPatch  = <T>(path: string, body?: unknown) => request<T>('PATCH', path, body);
 export const apiDelete = <T>(path: string) => request<T>('DELETE', path);
+
+// Returns the full { success, message } envelope instead of just data.
+// Throws only on network/parse errors — does NOT throw on success:false.
+// Use when the caller needs to inspect success/message directly.
+export async function apiPostEnvelope(
+  path: string,
+  body?: unknown,
+): Promise<{ success: boolean; message: string }> {
+  const hasBody = body !== undefined;
+  const url = buildApiUrl(path);
+
+  let response: Response;
+  try {
+    response = await fetch(url, {
+      method: 'POST',
+      headers: buildApiHeaders(hasBody),
+      body: hasBody ? JSON.stringify(body) : undefined,
+    });
+  } catch (err) {
+    throw new ApiError(
+      err instanceof Error ? err.message : 'Network request failed.',
+      0,
+    );
+  }
+
+  const contentType = response.headers.get('content-type') ?? '';
+  if (!contentType.includes('application/json')) {
+    if (!response.ok) throw new ApiError(`Server error (HTTP ${response.status}).`, response.status);
+    return { success: true, message: '' };
+  }
+
+  let envelope: Envelope<unknown>;
+  try {
+    envelope = (await response.json()) as Envelope<unknown>;
+  } catch {
+    throw new ApiError('Server returned an invalid response. Please try again.', response.status);
+  }
+
+  return {
+    success: envelope.success === true && response.ok,
+    message: envelope.message?.trim() ?? '',
+  };
+}

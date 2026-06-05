@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { ArrowLeft, FileDown } from 'lucide-react';
+import { ArrowLeft, FileDown, Mail } from 'lucide-react';
 import {
   useAssessmentReport,
   useAssessmentPlr,
@@ -20,9 +20,11 @@ import { LoadingState } from '../../components/ui/Spinner';
 import { ErrorState } from '../../components/ui/ErrorState';
 import { formatDateTime, capitalize } from '../../utils/formatters';
 import { exportReportPdf } from '../../services/pdf/reportPdf.service';
+import { SendInsuranceEmailDialog } from '../../components/reports/SendInsuranceEmailDialog';
 import type { RiskLevel } from '../../types/assessment';
 
 type PdfStatus = 'idle' | 'loading' | 'success' | 'error';
+type EmailStatus = 'idle' | 'success' | 'error';
 
 export default function ReportDetailsPage() {
   const { id } = useParams<{ id: string }>();
@@ -34,6 +36,8 @@ export default function ReportDetailsPage() {
   const { data: scatOff } = useAssessmentScatOffField(assessmentId);
 
   const [pdfStatus, setPdfStatus] = useState<PdfStatus>('idle');
+  const [emailDialogOpen, setEmailDialogOpen] = useState(false);
+  const [emailStatus, setEmailStatus] = useState<EmailStatus>('idle');
 
   const handleExportPdf = async () => {
     if (!report || pdfStatus === 'loading') return;
@@ -53,6 +57,11 @@ export default function ReportDetailsPage() {
     }
   };
 
+  const handleEmailSuccess = () => {
+    setEmailStatus('success');
+    setTimeout(() => setEmailStatus('idle'), 4000);
+  };
+
   if (isLoading) return <LoadingState message="Loading report..." />;
   if (isError)   return <ErrorState message="Could not load report." onRetry={() => void refetch()} />;
   if (!report)   return null;
@@ -70,23 +79,37 @@ export default function ReportDetailsPage() {
           />
         </div>
 
-        {/* Export PDF button */}
-        <div className="flex flex-col items-end gap-1">
-          <Button
-            variant="secondary"
-            size="sm"
-            onClick={handleExportPdf}
-            disabled={isLoading || !report || pdfStatus === 'loading'}
-            loading={pdfStatus === 'loading'}
-          >
-            <FileDown size={14} />
-            Export PDF
-          </Button>
+        {/* Action buttons */}
+        <div className="flex flex-col items-end gap-2">
+          <div className="flex gap-2">
+            <Button
+              variant="secondary"
+              size="sm"
+              onClick={handleExportPdf}
+              disabled={isLoading || !report || pdfStatus === 'loading'}
+              loading={pdfStatus === 'loading'}
+            >
+              <FileDown size={14} />
+              Export PDF
+            </Button>
+            <Button
+              variant="secondary"
+              size="sm"
+              onClick={() => setEmailDialogOpen(true)}
+              disabled={isLoading || !report}
+            >
+              <Mail size={14} />
+              Send Report PDF to Insurance
+            </Button>
+          </div>
           {pdfStatus === 'success' && (
             <p className="text-xs text-emerald-400">PDF exported successfully.</p>
           )}
           {pdfStatus === 'error' && (
             <p className="text-xs text-rose-400">Failed to export PDF. Please try again.</p>
+          )}
+          {emailStatus === 'success' && (
+            <p className="text-xs text-emerald-400">Report PDF sent successfully.</p>
           )}
         </div>
       </div>
@@ -147,6 +170,13 @@ export default function ReportDetailsPage() {
 
       {/* Disclaimer */}
       <MedicalDisclaimer />
+
+      <SendInsuranceEmailDialog
+        open={emailDialogOpen}
+        onClose={() => setEmailDialogOpen(false)}
+        assessmentId={assessmentId}
+        onSuccess={handleEmailSuccess}
+      />
     </div>
   );
 }
