@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
+/* eslint-disable react-refresh/only-export-components -- context module co-locates provider + hook by convention */
+import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 
 type Language = "en" | "ar";
 
@@ -12,7 +13,7 @@ const LANGUAGE_KEY = "app_language";
 
 const LanguageContext = createContext<LanguageContextValue | undefined>(undefined);
 
-export const LanguageProvider = ({ children }: { children: React.ReactNode }) => {
+export const LanguageProvider = ({ children }: { children: ReactNode }) => {
   const [language, setLanguage] = useState<Language>(() => {
     const stored = window.localStorage.getItem(LANGUAGE_KEY);
     return stored === "ar" ? "ar" : "en";

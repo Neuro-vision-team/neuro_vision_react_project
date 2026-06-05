@@ -1,20 +1,29 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { useEffect } from 'react';
 import { RouterProvider } from 'react-router-dom';
-import { router } from '../routes/router';
-import { applyTheme, useUiStore } from '../store/uiStore';
+import { router } from './routes/router';
+import { ApiError } from '../types/api';
 import { LanguageProvider } from './language-context';
 import { ThemeProvider } from './theme-context';
 
-const queryClient = new QueryClient();
+// ─── QueryClient — retry only on transient errors ─────────────────────────────
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 60_000,
+      retry: (failureCount, error) => {
+        // Never retry auth / permission errors
+        if (error instanceof ApiError) {
+          if (error.status === 401 || error.status === 403 || error.status === 422) {
+            return false;
+          }
+        }
+        return failureCount < 2;
+      },
+    },
+  },
+});
 
 export function AppProviders() {
-  const theme = useUiStore((state) => state.theme);
-
-  useEffect(() => {
-    applyTheme(theme);
-  }, [theme]);
-
   return (
     <ThemeProvider>
       <LanguageProvider>

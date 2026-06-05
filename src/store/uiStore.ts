@@ -2,57 +2,57 @@ import { create } from 'zustand';
 
 export type Theme = 'dark' | 'light';
 
-interface UiState {
-  emergencyOpen: boolean;
-  dir: 'ltr' | 'rtl';
-  theme: Theme;
-  setEmergencyOpen: (open: boolean) => void;
-  setTheme: (theme: Theme) => void;
-  toggleDir: () => void;
-  toggleTheme: () => void;
-}
-
 const THEME_KEY = 'ui-theme';
-const LEGACY_THEME_KEY = 'app_theme';
 
-export const applyTheme = (theme: Theme) => {
+// ─── Apply theme to DOM ────────────────────────────────────────────────────────
+export function applyTheme(theme: Theme): void {
   if (typeof document === 'undefined') return;
-
   document.documentElement.setAttribute('data-theme', theme);
   document.documentElement.classList.toggle('dark', theme === 'dark');
-};
+}
 
-const persistTheme = (theme: Theme) => {
-  if (typeof window === 'undefined') return;
-
-  window.localStorage.setItem(THEME_KEY, theme);
-};
-
-const getInitialTheme = (): Theme => {
+// ─── Initial theme ─────────────────────────────────────────────────────────────
+function getInitialTheme(): Theme {
   if (typeof window === 'undefined') return 'dark';
-  const stored = window.localStorage.getItem(THEME_KEY) ?? window.localStorage.getItem(LEGACY_THEME_KEY);
+  const stored = window.localStorage.getItem(THEME_KEY);
   return stored === 'light' ? 'light' : 'dark';
-};
+}
 
-const initialTheme = getInitialTheme();
-applyTheme(initialTheme);
+// Apply theme synchronously on import — prevents flash of wrong theme
+const _initialTheme = getInitialTheme();
+applyTheme(_initialTheme);
+
+// ─── Store interface ───────────────────────────────────────────────────────────
+interface UiState {
+  theme: Theme;
+  sidebarOpen: boolean;
+
+  setTheme(theme: Theme): void;
+  toggleTheme(): void;
+  setSidebarOpen(open: boolean): void;
+  toggleSidebar(): void;
+}
 
 export const useUiStore = create<UiState>((set) => ({
-  emergencyOpen: false,
-  dir: 'ltr',
-  theme: initialTheme,
-  setEmergencyOpen: (open) => set({ emergencyOpen: open }),
+  theme:       _initialTheme,
+  sidebarOpen: false,
+
   setTheme: (theme) => {
-    persistTheme(theme);
+    localStorage.setItem(THEME_KEY, theme);
     applyTheme(theme);
     set({ theme });
   },
-  toggleDir: () => set((state) => ({ dir: state.dir === 'ltr' ? 'rtl' : 'ltr' })),
-  toggleTheme: () =>
+
+  toggleTheme: () => {
     set((state) => {
-      const nextTheme = state.theme === 'dark' ? 'light' : 'dark';
-      persistTheme(nextTheme);
-      applyTheme(nextTheme);
-      return { theme: nextTheme };
-    }),
+      const next: Theme = state.theme === 'dark' ? 'light' : 'dark';
+      localStorage.setItem(THEME_KEY, next);
+      applyTheme(next);
+      return { theme: next };
+    });
+  },
+
+  setSidebarOpen: (open) => set({ sidebarOpen: open }),
+
+  toggleSidebar: () => set((state) => ({ sidebarOpen: !state.sidebarOpen })),
 }));
