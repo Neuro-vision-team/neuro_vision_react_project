@@ -4,7 +4,8 @@
  * Reports are derived from completed assessments via /assessments/:id/report
  * (there is no standalone /reports backend endpoint).
  */
-import { apiGet, apiPost, apiPostEnvelope } from './client';
+import { apiGet, apiPost, apiPostEnvelope, buildApiUrl, buildApiHeaders } from './client';
+import { ApiError } from '../../types/api';
 import type { PaginatedRaw } from '../../types/api';
 import type { AssessmentRaw, AssessmentsParams } from '../../types/assessment';
 import type { PlrTestRaw } from '../../types/plr';
@@ -35,6 +36,33 @@ export function getAssessmentReport(id: string): Promise<AssessmentReportRaw> {
 // ─── PLR (display only — no upload) ──────────────────────────────────────────
 export function getAssessmentPlr(id: string): Promise<PlrTestRaw[]> {
   return apiGet<PlrTestRaw[]>(`/assessments/${id}/plr`);
+}
+
+export function getPlrTest(id: string): Promise<PlrTestRaw> {
+  return apiGet<PlrTestRaw>(`/plr-tests/${id}`);
+}
+
+export function reanalyzePlrTest(id: string): Promise<PlrTestRaw> {
+  return apiPost<PlrTestRaw>(`/plr-tests/${id}/reanalyze`);
+}
+
+async function downloadPlrVideoBlob(path: string): Promise<Blob> {
+  let response: Response;
+  try {
+    response = await fetch(buildApiUrl(path), { headers: buildApiHeaders() });
+  } catch (err) {
+    throw new ApiError(err instanceof Error ? err.message : 'Network request failed.', 0);
+  }
+  if (!response.ok) throw new ApiError(`Video download failed (HTTP ${response.status}).`, response.status);
+  return response.blob();
+}
+
+export function downloadPlrVideo(id: string): Promise<Blob> {
+  return downloadPlrVideoBlob(`/plr-tests/${id}/video`);
+}
+
+export function downloadPlrProcessedVideo(id: string): Promise<Blob> {
+  return downloadPlrVideoBlob(`/plr-tests/${id}/processed-video`);
 }
 
 // ─── SCAT (display only — no form submission) ─────────────────────────────────

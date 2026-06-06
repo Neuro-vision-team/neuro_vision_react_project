@@ -1,7 +1,7 @@
 import { apiDelete, apiGet, apiPatch, apiPost, apiPut } from './client';
 import type { PaginatedRaw } from '../../types/api';
 import type { ManagerDashboardRaw } from '../../types/dashboard';
-import type { TeamRaw } from '../../types/team';
+import type { TeamRaw, UpdateTeamPayload } from '../../types/team';
 import type { PlayerRaw, CreatePlayerPayload, UpdatePlayerPayload, PlayersParams } from '../../types/player';
 import type { AssessmentRaw, AssessmentsParams } from '../../types/assessment';
 import type { AssessmentReportRaw } from '../../types/report';
@@ -20,6 +20,10 @@ export function getManagerDashboard(): Promise<ManagerDashboardRaw> {
 // ─── Team ─────────────────────────────────────────────────────────────────────
 export function getManagerTeam(): Promise<TeamRaw> {
   return apiGet<TeamRaw>('/manager/team');
+}
+
+export function updateManagerTeam(payload: UpdateTeamPayload): Promise<TeamRaw> {
+  return apiPut<TeamRaw>('/manager/team', payload);
 }
 
 // ─── Players ──────────────────────────────────────────────────────────────────
@@ -67,8 +71,12 @@ export function getManagerAssessmentReport(id: string): Promise<AssessmentReport
 }
 
 // ─── Medical Staff (auto-assigned to manager's team) ──────────────────────────
-export function getManagerStaff(): Promise<StaffRaw[]> {
-  return apiGet<StaffRaw[]>('/manager/staff');
+export function getManagerStaff(): Promise<PaginatedRaw<StaffRaw>> {
+  return apiGet<PaginatedRaw<StaffRaw>>('/manager/staff');
+}
+
+export function getManagerStaffMember(id: string): Promise<StaffRaw> {
+  return apiGet<StaffRaw>(`/manager/staff/${id}`);
 }
 
 export function createManagerStaff(payload: CreateStaffPayload): Promise<StaffRaw> {

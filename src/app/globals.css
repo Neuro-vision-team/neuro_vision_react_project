@@ -91,9 +91,11 @@ body {
 /* Light-mode normalization for hard-coded dark Tailwind utilities */
 :root[data-theme='light'] :is(
   [class*='bg-slate-9'],
+  [class*='bg-slate-8'],
   [class*='bg-gray-8'],
   [class*='bg-gray-9'],
   [class*='bg-zinc-8'],
+  [class*='bg-zinc-9'],
   [class*='bg-black/'],
   [class*='bg-cyan-9'],
   [class*='bg-teal-9'],
@@ -104,14 +106,24 @@ body {
   color: #10243a !important;
 }
 
+/* Dark gradient backgrounds → light surface */
+:root[data-theme='light'] :is(
+  [class*='from-slate-9'],
+  [class*='from-slate-8'],
+  [class*='from-zinc-9'],
+  [class*='from-cyan-9']
+) {
+  background-image: linear-gradient(135deg, #f8fbfe 0%, #eef4fa 60%, #e6f0f9 100%) !important;
+}
+
 :root[data-theme='light'] :is(
   input,
   select,
   textarea
 )[class] {
-  background-color: #ffffff;
-  color: #0f172a;
-  border-color: rgba(148, 163, 184, 0.55);
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+  border-color: rgba(148, 163, 184, 0.55) !important;
 }
 
 :root[data-theme='light'] :is(
@@ -119,7 +131,7 @@ body {
   select,
   textarea
 )[class]::placeholder {
-  color: #94a3b8;
+  color: #94a3b8 !important;
 }
 
 :root[data-theme='light'] :is(
@@ -127,8 +139,8 @@ body {
   select,
   textarea
 )[class]:disabled {
-  background-color: #eef4fa;
-  color: #64748b;
+  background-color: #eef4fa !important;
+  color: #64748b !important;
 }
 
 :root[data-theme='light'] :is(

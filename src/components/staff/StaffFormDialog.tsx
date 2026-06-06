@@ -129,7 +129,7 @@ function StaffFormBody({ staff, onClose }: StaffFormBodyProps) {
               type="button"
               tabIndex={-1}
               onClick={() => setShowPwd((v) => !v)}
-              className="absolute right-3 top-9 text-slate-500 hover:text-slate-300"
+              className="absolute right-3 top-9 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300"
             >
               {showPwd ? <EyeOff size={16} /> : <Eye size={16} />}
             </button>
@@ -149,7 +149,7 @@ function StaffFormBody({ staff, onClose }: StaffFormBodyProps) {
               type="button"
               tabIndex={-1}
               onClick={() => setShowConf((v) => !v)}
-              className="absolute right-3 top-9 text-slate-500 hover:text-slate-300"
+              className="absolute right-3 top-9 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300"
             >
               {showConf ? <EyeOff size={16} /> : <Eye size={16} />}
             </button>
@@ -159,13 +159,13 @@ function StaffFormBody({ staff, onClose }: StaffFormBodyProps) {
 
       {/* Team assignment note */}
       {!isEdit && (
-        <p className="rounded-xl border border-cyan-400/20 bg-cyan-500/5 px-3 py-2 text-xs text-cyan-300">
+        <p className="rounded-xl border border-cyan-300/60 bg-cyan-50 px-3 py-2 text-xs text-cyan-700 dark:border-cyan-400/20 dark:bg-cyan-500/5 dark:text-cyan-300">
           This staff member will be automatically assigned to your team.
         </p>
       )}
 
       {error && (
-        <p className="rounded-xl border border-rose-500/30 bg-rose-500/10 px-3 py-2 text-sm text-rose-300">
+        <p className="rounded-xl border border-rose-300 bg-rose-50 px-3 py-2 text-sm text-rose-700 dark:border-rose-500/30 dark:bg-rose-500/10 dark:text-rose-300">
           {error}
         </p>
       )}
@@ -187,15 +187,15 @@ export function StaffFormDialog({ open, onClose, staff }: StaffFormDialogProps) 
     <RadixDialog.Root open={open} onOpenChange={(v) => { if (!v) onClose(); }}>
       <RadixDialog.Portal>
         <RadixDialog.Overlay className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm" />
-        <RadixDialog.Content className="fixed left-1/2 top-1/2 z-50 w-full max-w-md -translate-x-1/2 -translate-y-1/2 rounded-2xl border border-slate-700/60 bg-slate-900 p-6 shadow-2xl">
+        <RadixDialog.Content className="fixed left-1/2 top-1/2 z-50 w-full max-w-md -translate-x-1/2 -translate-y-1/2 rounded-2xl border border-slate-200 bg-white p-6 shadow-2xl dark:border-slate-700/60 dark:bg-slate-900">
           <div className="mb-4 flex items-center justify-between">
-            <RadixDialog.Title className="text-lg font-semibold text-slate-50">
+            <RadixDialog.Title className="text-lg font-semibold text-slate-800 dark:text-slate-50">
               {staff ? 'Edit Staff Member' : 'Add Medical Staff'}
             </RadixDialog.Title>
             <RadixDialog.Description className="sr-only">
               {staff ? 'Edit staff member details' : 'Create a new medical staff member for your team'}
             </RadixDialog.Description>
-            <button type="button" aria-label="Close" onClick={onClose} className="rounded-lg p-1 text-slate-400 hover:text-slate-100">
+            <button type="button" aria-label="Close" onClick={onClose} className="rounded-lg p-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-100">
               <X size={18} />
             </button>
           </div>

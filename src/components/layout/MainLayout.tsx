@@ -21,7 +21,7 @@ export function MainLayout() {
   };
 
   return (
-    <div className="flex min-h-screen bg-slate-950 text-slate-100" dir={isArabic ? 'rtl' : 'ltr'}>
+    <div className="flex min-h-screen bg-gray-50 text-gray-900 dark:bg-slate-950 dark:text-slate-100" dir={isArabic ? 'rtl' : 'ltr'}>
       <Sidebar />
       <div className={isArabic ? 'md:pr-[17rem]' : 'md:pl-[17rem]'} style={{ flex: 1 }}>
         <Topbar onLogout={onLogout} />

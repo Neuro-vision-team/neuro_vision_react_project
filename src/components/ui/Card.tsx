@@ -11,7 +11,11 @@ export function Card({ glass = true, className, children, ...props }: CardProps)
       className={cn(
         'rounded-2xl border p-4',
         glass
-          ? 'border-cyan-400/10 bg-gradient-to-br from-slate-950/80 via-slate-900/70 to-cyan-950/20 shadow-[0_8px_32px_rgba(0,0,0,0.22)] backdrop-blur-xl'
+          ? [
+              'backdrop-blur-xl',
+              'border-slate-200/80 bg-white/80 shadow-[0_8px_32px_rgba(31,74,116,0.08)]',
+              'dark:border-cyan-400/10 dark:bg-gradient-to-br dark:from-slate-950/80 dark:via-slate-900/70 dark:to-cyan-950/20 dark:shadow-[0_8px_32px_rgba(0,0,0,0.22)]',
+            ].join(' ')
           : 'border-slate-200 bg-white/90 shadow-[0_4px_16px_rgba(31,74,116,0.10)] dark:border-slate-700/50 dark:bg-slate-900/60',
         className,
       )}

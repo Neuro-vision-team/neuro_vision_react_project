@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import * as RadixDialog from '@radix-ui/react-dialog';
 import { X, Send } from 'lucide-react';
-import { toast } from 'sonner';
 import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
 import { sendInsuranceEmail } from '../../services/api/assessments.api';
@@ -23,9 +22,9 @@ export function SendInsuranceEmailDialog({
     <RadixDialog.Root open={open} onOpenChange={(v) => { if (!v) onClose(); }}>
       <RadixDialog.Portal>
         <RadixDialog.Overlay className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm" />
-        <RadixDialog.Content className="fixed left-1/2 top-1/2 z-50 w-full max-w-lg -translate-x-1/2 -translate-y-1/2 rounded-2xl border border-slate-700/60 bg-slate-900 p-6 shadow-2xl">
+        <RadixDialog.Content className="fixed left-1/2 top-1/2 z-50 w-full max-w-lg -translate-x-1/2 -translate-y-1/2 rounded-2xl border border-slate-200 bg-white p-6 shadow-2xl dark:border-slate-700/60 dark:bg-slate-900">
           <div className="mb-5 flex items-center justify-between">
-            <RadixDialog.Title className="text-lg font-semibold text-slate-50">
+            <RadixDialog.Title className="text-lg font-semibold text-slate-800 dark:text-slate-50">
               Send Report PDF to Insurance
             </RadixDialog.Title>
             <RadixDialog.Description className="sr-only">
@@ -35,7 +34,7 @@ export function SendInsuranceEmailDialog({
               type="button"
               aria-label="Close"
               onClick={onClose}
-              className="rounded-lg p-1 text-slate-400 hover:text-slate-100"
+              className="rounded-lg p-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-100"
             >
               <X size={18} />
             </button>
@@ -119,9 +118,9 @@ function SendInsuranceEmailForm({ assessmentId, onClose, onSuccess }: FormProps)
         required
       />
       <div className="w-full space-y-1">
-        <label htmlFor="insurance-email-message" className="block text-xs font-semibold uppercase tracking-wide text-slate-400">
+        <label htmlFor="insurance-email-message" className="block text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
           Message{' '}
-          <span className="normal-case font-normal text-slate-500">(optional)</span>
+          <span className="normal-case font-normal text-slate-400 dark:text-slate-500">(optional)</span>
         </label>
         <textarea
           id="insurance-email-message"
@@ -129,12 +128,16 @@ function SendInsuranceEmailForm({ assessmentId, onClose, onSuccess }: FormProps)
           onChange={(e) => set('message', e.target.value)}
           rows={4}
           placeholder="Enter a message for the insurance provider..."
-          className="w-full resize-none rounded-xl border border-slate-700/60 bg-slate-900/70 px-4 py-3 text-sm text-slate-100 placeholder:text-slate-500 outline-none transition focus:border-cyan-400/50 focus:ring-1 focus:ring-cyan-400/20"
+          className="w-full resize-none rounded-xl border px-4 py-3 text-sm outline-none transition
+            border-slate-300 bg-white text-slate-900 placeholder:text-slate-400
+            dark:border-slate-700/60 dark:bg-slate-900/70 dark:text-slate-100 dark:placeholder:text-slate-500
+            focus:border-cyan-500/60 focus:ring-1 focus:ring-cyan-500/20
+            dark:focus:border-cyan-400/50 dark:focus:ring-cyan-400/20"
         />
       </div>
 
       {error && (
-        <p className="rounded-xl border border-rose-500/30 bg-rose-500/10 px-3 py-2 text-sm text-rose-300">
+        <p className="rounded-xl border border-rose-300 bg-rose-50 px-3 py-2 text-sm text-rose-700 dark:border-rose-500/30 dark:bg-rose-500/10 dark:text-rose-300">
           {error}
         </p>
       )}

@@ -27,15 +27,15 @@ export function ConfirmDialog({
     <RadixDialog.Root open={open} onOpenChange={(v) => { if (!v) onClose(); }}>
       <RadixDialog.Portal>
         <RadixDialog.Overlay className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm" />
-        <RadixDialog.Content className="fixed left-1/2 top-1/2 z-50 w-full max-w-md -translate-x-1/2 -translate-y-1/2 rounded-2xl border border-slate-700/60 bg-slate-900 p-6 shadow-2xl">
+        <RadixDialog.Content className="fixed left-1/2 top-1/2 z-50 w-full max-w-md -translate-x-1/2 -translate-y-1/2 rounded-2xl border border-slate-200 bg-white p-6 shadow-2xl dark:border-slate-700/60 dark:bg-slate-900">
           <div className="flex flex-col items-center gap-4 text-center">
-            <div className="flex h-12 w-12 items-center justify-center rounded-full border border-rose-500/30 bg-rose-500/10 text-rose-400">
+            <div className="flex h-12 w-12 items-center justify-center rounded-full border border-rose-300 bg-rose-50 text-rose-500 dark:border-rose-500/30 dark:bg-rose-500/10 dark:text-rose-400">
               <AlertTriangle size={24} />
             </div>
-            <RadixDialog.Title className="text-lg font-semibold text-slate-50">
+            <RadixDialog.Title className="text-lg font-semibold text-slate-800 dark:text-slate-50">
               {title}
             </RadixDialog.Title>
-            <RadixDialog.Description className="text-sm text-slate-400">
+            <RadixDialog.Description className="text-sm text-slate-500 dark:text-slate-400">
               {message}
             </RadixDialog.Description>
             <div className="mt-2 flex w-full gap-3">

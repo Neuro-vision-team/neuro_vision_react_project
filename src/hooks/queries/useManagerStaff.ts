@@ -6,6 +6,6 @@ import { QUERY_KEYS } from '../queryKeys';
 export function useManagerStaff() {
   return useQuery({
     queryKey: QUERY_KEYS.managerStaff(),
-    queryFn:  () => getManagerStaff().then((list) => list.map(mapStaff)),
+    queryFn:  () => getManagerStaff().then((page) => page.data.map(mapStaff)),
   });
 }
