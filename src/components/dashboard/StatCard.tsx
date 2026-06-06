@@ -23,7 +23,7 @@ export function StatCard({
       className={cn(
         'rounded-2xl border p-4',
         'border-slate-200/80 bg-white shadow-[0_4px_16px_rgba(31,74,116,0.08)]',
-        'dark:border-cyan-400/10 dark:bg-gradient-to-br dark:from-slate-950/80 dark:via-slate-900/70 dark:to-cyan-950/20 dark:shadow-[0_8px_24px_rgba(0,0,0,0.2)]',
+        'dark:border-cyan-400/10 dark:bg-slate-900 dark:shadow-[0_8px_24px_rgba(0,0,0,0.2)]',
         className,
       )}
     >

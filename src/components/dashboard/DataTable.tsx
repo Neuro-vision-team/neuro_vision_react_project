@@ -40,15 +40,15 @@ export function DataTable<T>({
 }: DataTableProps<T>) {
   return (
     <div className={cn('w-full space-y-3', className)}>
-      <div className="overflow-x-auto rounded-2xl border border-slate-800/60">
+      <div className="overflow-x-auto rounded-2xl border border-slate-200 dark:border-slate-800/60">
         <table className="min-w-full">
           <thead>
-            <tr className="border-b border-slate-800/60 bg-slate-900/60">
+            <tr className="border-b border-slate-200 bg-slate-50 dark:border-slate-800/60 dark:bg-slate-900/60">
               {columns.map((col) => (
                 <th
                   key={col.key}
                   className={cn(
-                    'px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-400',
+                    'px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400',
                     col.className,
                   )}
                 >
@@ -60,7 +60,7 @@ export function DataTable<T>({
           <tbody>
             {loading ? (
               Array.from({ length: skeletonRows }).map((_, i) => (
-                <tr key={i} className="border-b border-slate-800/40">
+                <tr key={i} className="border-b border-slate-200 dark:border-slate-800/40">
                   <td colSpan={columns.length} className="px-4 py-2">
                     <SkeletonRow />
                   </td>
@@ -76,10 +76,10 @@ export function DataTable<T>({
               data.map((row, rowIndex) => (
                 <tr
                   key={rowIndex}
-                  className="border-b border-slate-800/40 transition hover:bg-slate-800/30"
+                  className="border-b border-slate-200 transition hover:bg-slate-50 dark:border-slate-800/40 dark:hover:bg-slate-800/30"
                 >
                   {columns.map((col) => (
-                    <td key={col.key} className={cn('px-4 py-3 text-sm text-slate-300', col.className)}>
+                    <td key={col.key} className={cn('px-4 py-3 text-sm text-slate-700 dark:text-slate-300', col.className)}>
                       {col.render(row)}
                     </td>
                   ))}

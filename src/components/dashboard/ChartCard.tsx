@@ -27,8 +27,8 @@ export function ChartCard({
   return (
     <Card className={cn('flex flex-col', className)}>
       <div className="mb-4">
-        <p className="font-semibold text-slate-100">{title}</p>
-        {subtitle && <p className="mt-0.5 text-xs text-slate-500">{subtitle}</p>}
+        <p className="font-semibold text-slate-800 dark:text-slate-100">{title}</p>
+        {subtitle && <p className="mt-0.5 text-xs text-slate-500 dark:text-slate-400">{subtitle}</p>}
       </div>
 
       {loading ? (

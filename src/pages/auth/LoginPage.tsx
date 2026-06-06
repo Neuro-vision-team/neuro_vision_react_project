@@ -98,7 +98,7 @@ export default function LoginPage() {
         <button
           type="button"
           onClick={toggleTheme}
-          className="rounded-xl border border-slate-700/60 px-3 py-2 text-slate-300 hover:border-cyan-400/40 hover:text-slate-100"
+          className="rounded-xl border border-slate-300 px-3 py-2 text-slate-600 hover:border-cyan-500/50 hover:text-slate-900 dark:border-slate-700/60 dark:text-slate-300 dark:hover:border-cyan-400/40 dark:hover:text-slate-100"
           title={dark ? t('Switch to light theme') : t('Switch to dark theme')}
         >
           {dark ? <Sun size={15} /> : <Moon size={15} />}
@@ -106,7 +106,7 @@ export default function LoginPage() {
         <button
           type="button"
           onClick={toggleLanguage}
-          className="rounded-xl border border-slate-700/60 px-3 py-2 text-slate-300 hover:border-cyan-400/40 hover:text-slate-100"
+          className="rounded-xl border border-slate-300 px-3 py-2 text-slate-600 hover:border-cyan-500/50 hover:text-slate-900 dark:border-slate-700/60 dark:text-slate-300 dark:hover:border-cyan-400/40 dark:hover:text-slate-100"
           title={language === 'ar' ? 'Switch to English' : 'Switch to Arabic'}
         >
           <Languages size={15} />
@@ -118,7 +118,7 @@ export default function LoginPage() {
         <div className={`w-full max-w-md rounded-[2rem] border p-8 backdrop-blur-xl ${
           dark
             ? 'border-cyan-400/10 bg-slate-950/80 shadow-[0_28px_80px_rgba(0,0,0,0.5)]'
-            : 'border-slate-200 bg-white/90 shadow-[0_28px_80px_rgba(31,74,116,0.14)]'
+            : 'border-slate-200 bg-white shadow-[0_28px_80px_rgba(31,74,116,0.14)]'
         }`}>
           {/* Brand */}
           <div className="mb-8 flex items-center gap-4">
@@ -126,13 +126,13 @@ export default function LoginPage() {
               <img src={projectIcon} alt="Neuro Vision" className="h-full w-full rounded-xl object-contain" />
             </div>
             <div>
-              <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-cyan-400">Neuro Vision</p>
-              <h1 className="text-2xl font-black text-slate-50">Dashboard</h1>
+              <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-cyan-600 dark:text-cyan-400">Neuro Vision</p>
+              <h1 className="text-2xl font-black text-slate-900 dark:text-slate-50">Dashboard</h1>
             </div>
           </div>
 
-          <h2 className="mb-1 text-lg font-semibold text-slate-100">{t('Login')}</h2>
-          <p className="mb-6 text-sm text-slate-500">Management and monitoring platform</p>
+          <h2 className="mb-1 text-lg font-semibold text-slate-800 dark:text-slate-100">{t('Login')}</h2>
+          <p className="mb-6 text-sm text-slate-500 dark:text-slate-400">Management and monitoring platform</p>
 
           <form onSubmit={onSubmit} className="space-y-4">
             <Input

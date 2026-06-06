@@ -91,8 +91,8 @@ export default function AdminDashboardPage() {
           </ResponsiveContainer>
         </ChartCard>
 
-        <div className="rounded-2xl border border-cyan-400/10 bg-slate-900/60 p-5">
-          <p className="mb-4 font-semibold text-slate-100">Recent Activity</p>
+        <div className="rounded-2xl border border-slate-200 bg-white p-5 dark:border-cyan-400/10 dark:bg-slate-900">
+          <p className="mb-4 font-semibold text-slate-800 dark:text-slate-100">Recent Activity</p>
           <ActivityFeed items={activities} />
         </div>
       </section>
